@@ -1,27 +1,34 @@
 # Heart Rate ETL Pipeline
 
-Modern data pipeline processing synthetic heart rate streams from generation to analytics-ready warehouse.
+Modern, production-grade data pipeline processing synthetic heart rate streams from generation to analytics-ready warehouse. Built incrementally with best-in-class open-source tools.
 
-## Current Progress (Initial Setup)
-- **Project structure** with `.github/workflows` for CI/CD
-- **`.gitignore`** for clean repository management
-- **Mock data generation** structure in `mock-data/` folder
-- **Dependencies** listed in `requirements.txt`
+## Recent Progress
+- **Commit 1 (Setup)**: Project structure, `.github/workflows` for CI/CD (auto-README), `.gitignore`, `mock-data/` folder, `requirements.txt`.
+- **Commit 2 (Core Ingestion & Transform)**: Added `airbyte/` (connectors for S3 → Snowflake ingestion from Kafka streams) and `dbt/` (staging models for data cleaning/feature engineering on heart rate signals).
 
-## Tech Stack (Planned)
-- **Data Generation**: Python + Faker library
-- **Streaming**: Kafka + Confluent Cloud
-- **Storage**: AWS S3 data lake
+## Tech Stack
+- **Data Generation**: Python + Faker (user/activity/heart rate simulators)
+- **Streaming**: Kafka + Confluent Cloud (real-time heart rate events)
+- **Storage**: AWS S3 (data lake)
 - **Ingestion**: Airbyte (S3 → Snowflake)
-- **Transformation**: dbt (staging → serving layers)
-- **Orchestration**: Dagster (asset-based workflows)
-- **Visualization**: Tableau semantic layer
+- **Transformation**: dbt (raw → staging → serving layers)
+- **Orchestration**: Dagster (asset pipelines)
+- **Visualization**: Tableau (semantic layer/dashboards)
 
-## Next Steps
-1. Data generation scripts (`producer.py`, user/activity generators)
-2. Streaming pipeline (Kafka → S3)
-3. dbt transformation models
-4. Dagster orchestration
-5. Full deployment configs and docs
+## Local Setup
+1. Clone: `git clone https://github.com/Khush-domadia/Heart-Rate-ETL.git`
+2. Install deps: `pip install -r requirements.txt`
+3. Config: Update `airbyte/` YAMLs and `dbt/profiles.yml` with your creds (Confluent, S3, Snowflake).
+4. Test ingestion: Run Airbyte connectors locally.
 
-Stay tuned for incremental updates!
+## Run ETL (Current)
+- Airbyte: `airbyte/` syncs Kafka-parsed heart rate data to Snowflake.
+- dbt: `cd dbt && dbt run --models staging+` (transforms BPM anomalies, aggregates sessions).
+
+## Next Up (Commit 3 Preview)
+- Dagster assets for end-to-end orchestration.
+- Data generation producers (`producer.py`).
+- Tests (pytest), full CI/CD workflows, deployment docs.
+
+Star/fork for updates! Contributions welcome.
+
