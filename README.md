@@ -29,13 +29,11 @@ cd Heart-Rate-ETL
 pip install -r requirements.txt
 ```
 Configuration
-Kafka: Update client.properties with Confluent creds.
 
-Airbyte: Edit airbyte/ YAML sources/destinations (S3→Snowflake).
-
-dbt: dbt/profiles.yml → Snowflake creds.
-
-Dagster: dagster-cloud.yaml → optional Dagster Cloud.
+- Kafka: Update client.properties with Confluent creds.
+- Airbyte: Edit airbyte/ YAML sources/destinations (S3→Snowflake).
+- dbt: dbt/profiles.yml → Snowflake creds.
+- Dagster: dagster-cloud.yaml → optional Dagster Cloud.
 
 Run Pipeline
 ```bash
