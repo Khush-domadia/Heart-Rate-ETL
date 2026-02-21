@@ -51,6 +51,7 @@ dagster dev -m heart_rate_etl
 ```
 
 Project Structure
+
 ├── airbyte/          # Connectors: Kafka→S3→Snowflake
 ├── dagster/          # Assets, pipelines, schedules
 ├── dbt/              # models/, profiles.yml (staging→marts)
