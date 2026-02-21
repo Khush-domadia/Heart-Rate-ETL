@@ -53,19 +53,12 @@ dagster dev -m heart_rate_etl
 Project Structure
 
 ├── airbyte/          # Connectors: Kafka→S3→Snowflake
-
 ├── dagster/          # Assets, pipelines, schedules
-
 ├── dbt/              # models/, profiles.yml (staging→marts)
-
 ├── mock-data/        # Sample heart rate CSV/JSON
-
 ├── src/              # producer.py (Faker→Kafka)
-
 ├── tests/            # pytest ETL unit/integration
-
 ├── .github/workflows # CI/CD: test/deploy
-
 └── requirements.txt
 
 Key Features
