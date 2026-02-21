@@ -28,8 +28,17 @@ git clone https://github.com/Khush-domadia/Heart-Rate-ETL.git
 cd Heart-Rate-ETL
 pip install -r requirements.txt
 ```
+Configuration
+Kafka: Update client.properties with Confluent creds.
+
+Airbyte: Edit airbyte/ YAML sources/destinations (S3→Snowflake).
+
+dbt: dbt/profiles.yml → Snowflake creds.
+
+Dagster: dagster-cloud.yaml → optional Dagster Cloud.
 
 Run Pipeline
+```bash
 # 1. Generate data to Kafka
 python src/producer.py
 
@@ -41,28 +50,24 @@ cd dbt && dbt run --models +staging+mart
 
 # 4. Dagster orchestrate (full pipeline)
 dagster dev -m heart_rate_etl
+```
 
 Project Structure
-# 1. Generate data to Kafka
-python src/producer.py
-
-# 2. Airbyte sync (Docker)
-docker run --config airbyte/config.yaml airbyte/source-kafka
-
-# 3. dbt transform
-cd dbt && dbt run --models +staging+mart
-
-# 4. Dagster orchestrate (full pipeline)
-dagster dev -m heart_rate_etl
+├── airbyte/          # Connectors: Kafka→S3→Snowflake
+├── dagster/          # Assets, pipelines, schedules
+├── dbt/              # models/, profiles.yml (staging→marts)
+├── mock-data/        # Sample heart rate CSV/JSON
+├── src/              # producer.py (Faker→Kafka)
+├── tests/            # pytest ETL unit/integration
+├── .github/workflows # CI/CD: test/deploy
+└── requirements.txt
 
 Key Features
-Observable: Dagster asset lineage, dbt docs.
+- Observable: Dagster asset lineage, dbt docs.
+- Scalable: Kafka streaming, Snowflake serving layer.
+- Tested: 100% pytest coverage for extract/transform/load.
+- CI/CD: GitHub Actions auto-test/deploy.
 
-Scalable: Kafka streaming, Snowflake serving layer.
-
-Tested: 100% pytest coverage for extract/transform/load.
-
-CI/CD: GitHub Actions auto-test/deploy.
 
 Teck Stack
 | Layer       | Tools            |
@@ -76,6 +81,7 @@ Teck Stack
 | Viz         | Tableau          |
 
 Development
+```bash
 # Tests
 pytest tests/
 
@@ -84,4 +90,4 @@ dagster dev
 
 # dbt docs
 cd dbt && dbt docs generate && dbt docs serve
-ß
+```
