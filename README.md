@@ -27,6 +27,7 @@ Faker Producers → Kafka (Confluent) → Airbyte (S3→Snowflake) → dbt (stag
 git clone https://github.com/Khush-domadia/Heart-Rate-ETL.git
 cd Heart-Rate-ETL
 pip install -r requirements.txt
+```
 
 Run Pipeline
 # 1. Generate data to Kafka
@@ -83,4 +84,4 @@ dagster dev
 
 # dbt docs
 cd dbt && dbt docs generate && dbt docs serve
-```
+ß
