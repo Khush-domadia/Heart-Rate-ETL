@@ -50,8 +50,8 @@ cd dbt && dbt run --models +staging+mart
 dagster dev -m heart_rate_etl
 ```
 
-Project Structure
-
+## Project Structure
+```
 ├── airbyte/          # Connectors: Kafka→S3→Snowflake
 ├── dagster/          # Assets, pipelines, schedules
 ├── dbt/              # models/, profiles.yml (staging→marts)
@@ -60,6 +60,8 @@ Project Structure
 ├── tests/            # pytest ETL unit/integration
 ├── .github/workflows # CI/CD: test/deploy
 └── requirements.txt
+```
+
 
 Key Features
 - Observable: Dagster asset lineage, dbt docs.
