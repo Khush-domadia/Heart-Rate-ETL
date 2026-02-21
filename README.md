@@ -28,14 +28,14 @@ git clone https://github.com/Khush-domadia/Heart-Rate-ETL.git
 cd Heart-Rate-ETL
 pip install -r requirements.txt
 ```
-Configuration
+## Configuration
 
 - Kafka: Update client.properties with Confluent creds.
 - Airbyte: Edit airbyte/ YAML sources/destinations (S3→Snowflake).
 - dbt: dbt/profiles.yml → Snowflake creds.
 - Dagster: dagster-cloud.yaml → optional Dagster Cloud.
 
-Run Pipeline
+## Run Pipeline
 ```bash
 # 1. Generate data to Kafka
 python src/producer.py
@@ -63,7 +63,7 @@ dagster dev -m heart_rate_etl
 ```
 
 
-Key Features
+## Key Features
 - Observable: Dagster asset lineage, dbt docs.
 - Scalable: Kafka streaming, Snowflake serving layer.
 - Tested: 100% pytest coverage for extract/transform/load.
@@ -81,7 +81,7 @@ Teck Stack
 | Warehouse   | Snowflake, S3    |
 | Viz         | Tableau          |
 
-Development
+## Development
 ```bash
 # Tests
 pytest tests/
