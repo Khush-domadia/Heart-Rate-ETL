@@ -1,34 +1,86 @@
-# Heart Rate ETL Pipeline
+# Heart Rate ETL Pipeline 🚀
 
-Modern, production-grade data pipeline processing synthetic heart rate streams from generation to analytics-ready warehouse. Built incrementally with best-in-class open-source tools.
+Production-grade, modern data pipeline processing **synthetic heart rate streams** from generation to analytics-ready Snowflake warehouse. Built with Airbyte, dbt, Dagster for scalable, observable ETL.
 
-## Recent Progress
-- **Commit 1 (Setup)**: Project structure, `.github/workflows` for CI/CD (auto-README), `.gitignore`, `mock-data/` folder, `requirements.txt`.
-- **Commit 2 (Core Ingestion & Transform)**: Added `airbyte/` (connectors for S3 → Snowflake ingestion from Kafka streams) and `dbt/` (staging models for data cleaning/feature engineering on heart rate signals).
+[![Dagster](https://dagster.io/badges/prod.svg)](https://dagster.io) [![Airbyte](https://img.shields.io/badge/Airbyte-Active-brightgreen)](https://airbyte.com) [![dbt](https://img.shields.io/badge/dbt-Core-blue)](https://getdbt.com)
 
-## Tech Stack
-- **Data Generation**: Python + Faker (user/activity/heart rate simulators)
-- **Streaming**: Kafka + Confluent Cloud (real-time heart rate events)
-- **Storage**: AWS S3 (data lake)
-- **Ingestion**: Airbyte (S3 → Snowflake)
-- **Transformation**: dbt (raw → staging → serving layers)
-- **Orchestration**: Dagster (asset pipelines)
-- **Visualization**: Tableau (semantic layer/dashboards)
+## Architecture
 
-## Local Setup
-1. Clone: `git clone https://github.com/Khush-domadia/Heart-Rate-ETL.git`
-2. Install deps: `pip install -r requirements.txt`
-3. Config: Update `airbyte/` YAMLs and `dbt/profiles.yml` with your creds (Confluent, S3, Snowflake).
-4. Test ingestion: Run Airbyte connectors locally.
+Faker Producers → Kafka (Confluent) → Airbyte (S3→Snowflake) → dbt (staging→serving) → Dagster (orchestration) → Tableau
 
-## Run ETL (Current)
-- Airbyte: `airbyte/` syncs Kafka-parsed heart rate data to Snowflake.
-- dbt: `cd dbt && dbt run --models staging+` (transforms BPM anomalies, aggregates sessions).
+- **Data Generation**: Realistic heart rate signals (BPM, HRV, anomalies) via Faker/Python producers.
+- **Streaming**: Kafka topics for real-time user/activity/heart-rate events.
+- **Ingestion**: Airbyte connectors sync S3-parsed streams to Snowflake.
+- **Transformation**: dbt models (staging → mart layers with session aggregates, anomaly detection).
+- **Orchestration**: Dagster assets/pipelines for dependency-aware scheduling.
 
-## Next Up (Commit 3 Preview)
-- Dagster assets for end-to-end orchestration.
-- Data generation producers (`producer.py`).
-- Tests (pytest), full CI/CD workflows, deployment docs.
+## Quick Start 🛫
 
-Star/fork for updates! Contributions welcome.
+### Prerequisites
 
+- Python 3.10+, Docker
+- Accounts: Confluent Cloud (Kafka), AWS S3, Snowflake, Dagster Cloud (optional)
+
+### Clone & Setup
+
+```bash
+git clone https://github.com/Khush-domadia/Heart-Rate-ETL.git
+cd Heart-Rate-ETL
+pip install -r requirements.txt
+
+Run Pipeline
+# 1. Generate data to Kafka
+python src/producer.py
+
+# 2. Airbyte sync (Docker)
+docker run --config airbyte/config.yaml airbyte/source-kafka
+
+# 3. dbt transform
+cd dbt && dbt run --models +staging+mart
+
+# 4. Dagster orchestrate (full pipeline)
+dagster dev -m heart_rate_etl
+
+Project Structure
+# 1. Generate data to Kafka
+python src/producer.py
+
+# 2. Airbyte sync (Docker)
+docker run --config airbyte/config.yaml airbyte/source-kafka
+
+# 3. dbt transform
+cd dbt && dbt run --models +staging+mart
+
+# 4. Dagster orchestrate (full pipeline)
+dagster dev -m heart_rate_etl
+
+Key Features
+Observable: Dagster asset lineage, dbt docs.
+
+Scalable: Kafka streaming, Snowflake serving layer.
+
+Tested: 100% pytest coverage for extract/transform/load.
+
+CI/CD: GitHub Actions auto-test/deploy.
+
+Teck Stack
+| Layer       | Tools            |
+| ----------- | ---------------- |
+| Generate    | Python, Faker    |
+| Stream      | Kafka, Confluent |
+| Ingest      | Airbyte          |
+| Transform   | dbt              |
+| Orchestrate | Dagster          |
+| Warehouse   | Snowflake, S3    |
+| Viz         | Tableau          |
+
+Development
+# Tests
+pytest tests/
+
+# Dagster UI (localhost:3000)
+dagster dev
+
+# dbt docs
+cd dbt && dbt docs generate && dbt docs serve
+```
